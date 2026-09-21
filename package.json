@@ -1,0 +1,10 @@
+{
+  "name": "sayakat-kg",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build",
+    "frontend": "npm --prefix frontend run dev",
+    "backend": "python3 backend/manage.py runserver 8000"
+  }
+}
