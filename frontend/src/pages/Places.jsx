@@ -18,7 +18,7 @@ export default function Places() {
         {places.map((place, index) => {
           const placeTours = tours.filter(t => t.destination?.slug === place.slug || t.destination?.name === place.name);
           return <article key={place.id} className={index % 2 ? "place-row reverse" : "place-row"}>
-            <div className="place-media"><img src={place.image || images[index % 3]} alt={place.name}/><span className="place-coords"><MapPin size={13}/> {place.region || "Кыргызстан"}</span></div>
+            <div className="place-media"><img src={place.image || images[index % 3]} alt={place.name} loading="lazy"/><span className="place-coords"><MapPin size={13}/> {place.region || "Кыргызстан"}</span></div>
             <div className="place-copy">
               <span className="section-index">0{index + 1} / {place.best_season || "Круглый год"}</span>
               <h2>{place.name}</h2>

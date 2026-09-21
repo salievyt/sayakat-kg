@@ -6,7 +6,7 @@ const steps = [["01", "Заполните форму", "Расскажите о 
 
 export default function Organizers() {
   return <>
-    <PageHero kicker="Организаторам" title="Вы создаёте маршрут. Мы приводим гостей." text="Sayakat — канал бронирований для местных команд: без переписок в мессенджерах и ручных таблиц." image="/images/skazka-canyon.png"/>
+    <PageHero kicker="Организаторам" title="Вы создаёте маршрут. Мы приводим гостей." text="Sayakat — канал бронирований для местных команд: без переписок в мессенджерах и ручных таблиц." image="/images/skazka-canyon.webp"/>
     <section className="page-section"><div className="page-width">
       <div className="info-grid">
         {perks.map(([h, p, icon]) => <InfoCard key={h} icon={icon} title={h} text={p}/>)}

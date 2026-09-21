@@ -4,7 +4,7 @@ import { ContactForm, PageHero, contacts } from "../components.jsx";
 
 export default function Contacts() {
   return <>
-    <PageHero kicker="Контакты" title="Свяжитесь с Sayakat" text="Позвоните, напишите или загляните в офис — обсудим маршрут, даты и детали поездки." image="/images/karakol-valley.png"/>
+    <PageHero kicker="Контакты" title="Свяжитесь с Sayakat" text="Позвоните, напишите или загляните в офис — обсудим маршрут, даты и детали поездки." image="/images/karakol-valley.webp"/>
     <section className="page-section"><div className="page-width contacts-grid">
       <div className="contact-list">
         <a className="contact-row" href={`tel:${contacts.phone.replace(/[^+\d]/g, "")}`}><span className="info-icon"><Phone size={18}/></span><div><small>Телефон</small><b>{contacts.phone}</b></div></a>

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, CalendarDays, Check, ChevronDown, Heart, MapPin, Menu, Phone, Mail, Search, Star, Users, X } from "lucide-react";
 import { apiUrl } from "./api.js";
 
-export const images = ["/images/hero-song-kol.png", "/images/skazka-canyon.png", "/images/karakol-valley.png"];
+export const images = ["/images/hero-song-kol.webp", "/images/skazka-canyon.webp", "/images/karakol-valley.webp"];
 export const money = (value) => `${new Intl.NumberFormat("ru-RU").format(value)} сом`;
 export const dateLabel = (value) => value ? new Intl.DateTimeFormat("ru-RU", { day: "numeric", month: "long" }).format(new Date(value)) : "Дата уточняется";
 
@@ -78,7 +78,7 @@ export function SearchBar({ onSearch }) {
 export function TourCard({ tour, index = 0, onBook }) {
   const [saved,setSaved]=useState(false); const dep=tour.departures?.[0];
   return <article className="tour-card">
-    <div className="tour-photo"><img src={tour.image||images[index%3]} alt={tour.title}/><button className={`save ${saved?"active":""}`} onClick={()=>setSaved(!saved)} aria-label="Сохранить"><Heart size={19} fill={saved?"currentColor":"none"}/></button><span className="spots">{dep?.instant_booking?"Мгновенная бронь":`${dep?.seats_available||0} мест`}</span></div>
+    <div className="tour-photo"><img src={tour.image||images[index%3]} alt={tour.title} loading="lazy"/><button className={`save ${saved?"active":""}`} onClick={()=>setSaved(!saved)} aria-label="Сохранить"><Heart size={19} fill={saved?"currentColor":"none"}/></button><span className="spots">{dep?.instant_booking?"Мгновенная бронь":`${dep?.seats_available||0} мест`}</span></div>
     <div className="tour-body">
       <div className="tour-line"><span>{tour.destination.name}</span><span className="rating"><Star size={13} fill="currentColor"/> {tour.rating}</span></div>
       <h3>{tour.title}</h3><p>{tour.duration_days} {pluralDays(tour.duration_days)} · {tour.difficulty_label}</p>
@@ -95,7 +95,7 @@ export function OutlineButton({ to, children }) { return <Link className="outlin
 export function ArcCarousel({slides}){
   const items=slides.length?slides:fallbackGallery; const [active,setActive]=useState(2); const move=(step)=>setActive((active+step+items.length)%items.length);
   useEffect(()=>{const timer=setInterval(()=>setActive(v=>(v+1)%items.length),5000);return()=>clearInterval(timer)},[items.length]);
-  return <div className="arc-carousel"><div className="arc-track">{items.map((slide,index)=>{let offset=index-active;if(offset>items.length/2)offset-=items.length;if(offset<-items.length/2)offset+=items.length;return <figure key={slide.id} className={offset===0?"active":""} style={{"--offset":offset}} onClick={()=>setActive(index)}><img src={slide.image_src||images[index%3]} alt={slide.title}/><figcaption><b>{slide.title}</b><span>{slide.subtitle}</span></figcaption></figure>})}</div><div className="arc-controls"><button onClick={()=>move(-1)} aria-label="Предыдущий слайд">←</button><span>{String(active+1).padStart(2,"0")} / {String(items.length).padStart(2,"0")}</span><button onClick={()=>move(1)} aria-label="Следующий слайд">→</button></div></div>;
+  return <div className="arc-carousel"><div className="arc-track">{items.map((slide,index)=>{let offset=index-active;if(offset>items.length/2)offset-=items.length;if(offset<-items.length/2)offset+=items.length;return <figure key={slide.id} className={offset===0?"active":""} style={{"--offset":offset}} onClick={()=>setActive(index)}><img src={slide.image_src||images[index%3]} alt={slide.title} loading="lazy"/><figcaption><b>{slide.title}</b><span>{slide.subtitle}</span></figcaption></figure>})}</div><div className="arc-controls"><button onClick={()=>move(-1)} aria-label="Предыдущий слайд">←</button><span>{String(active+1).padStart(2,"0")} / {String(items.length).padStart(2,"0")}</span><button onClick={()=>move(1)} aria-label="Следующий слайд">→</button></div></div>;
 }
 
 export const fallbackGallery = [

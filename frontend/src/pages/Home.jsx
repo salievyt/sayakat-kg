@@ -18,7 +18,7 @@ export default function Home() {
   const search = (destination) => { setNote(destination === "Весь Кыргызстан" ? "Подобрали лучшие поездки по стране" : `Маршруты: ${destination}`); document.querySelector("#trips")?.scrollIntoView({ behavior: "smooth" }); };
   return <>
     <section className="hero">
-      <img src={content.hero_image || images[0]} alt="Всадники у озера Сон-Куль"/>
+      <img src={content.hero_image || images[0]} alt="Всадники у озера Сон-Куль" fetchpriority="high"/>
       <div className="hero-overlay"/>
       <div className="page-width hero-copy"><span className="hero-kicker">{content.hero_eyebrow}</span><h1>{content.hero_title}</h1><p>{content.hero_subtitle}</p></div>
       <div className="page-width search-wrap"><SearchBar onSearch={search}/></div>
@@ -27,7 +27,7 @@ export default function Home() {
     <section className="intro" id="intro"><div className="page-width intro-grid"><span className="section-index">{content.intro_label}</span><div><h2>{content.intro_title}</h2><p>{content.intro_text}</p><SectionLink to="/about">Как устроен Sayakat</SectionLink></div></div></section>
     <section className="gallery-section"><div className="gallery-heading"><span className="section-index">{content.gallery_label}</span><h2>{content.gallery_title}</h2></div><ArcCarousel slides={content.gallery || []}/></section>
     <section className="featured">
-      <div className="featured-photo"><img src="/images/skazka-canyon.png" alt="Каньон Сказка и Иссык-Куль"/><div className="photo-caption"><span>42.16° N, 77.35° E</span><span>Каньон Сказка</span></div></div>
+      <div className="featured-photo"><img src="/images/skazka-canyon.webp" alt="Каньон Сказка и Иссык-Куль" loading="lazy"/><div className="photo-caption"><span>42.16° N, 77.35° E</span><span>Каньон Сказка</span></div></div>
       <div className="featured-copy"><span className="section-index">Выбор редакции</span><div><p className="trip-number">Путешествие 07</p><h2>Иссык-Куль с другой стороны</h2><p>Два дня между красными каньонами и большим синим озером. Ночёвка в юрте, ужин у местной семьи и рассвет без толпы.</p><dl><div><dt>Длительность</dt><dd>2 дня</dd></div><div><dt>Группа</dt><dd>до 8 человек</dd></div><div><dt>Стоимость</dt><dd>от 8 900 сом</dd></div></dl><button className="action-button" onClick={() => setActiveTour(tours[1] || fallbackTours[1])}>Смотреть маршрут</button></div></div>
     </section>
     <section className="trips" id="trips"><div className="page-width">

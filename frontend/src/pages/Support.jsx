@@ -12,7 +12,7 @@ const faq = [
 
 export default function Support() {
   return <>
-    <PageHero kicker="Поддержка" title="Мы рядом до и во время поездки" text="Ответим на вопросы о маршрутах, бронировании и возвратах — обычно в течение пары часов." image="/images/hero-song-kol.png"/>
+    <PageHero kicker="Поддержка" title="Мы рядом до и во время поездки" text="Ответим на вопросы о маршрутах, бронировании и возвратах — обычно в течение пары часов." image="/images/hero-song-kol.webp"/>
     <section className="page-section"><div className="page-width">
       <div className="info-grid">
         <InfoCard icon={<PhoneCall size={20}/>} title="Позвонить" text={contacts.phone}/>
