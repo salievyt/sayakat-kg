@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, CalendarDays, Check, ChevronDown, Heart, MapPin, Menu, Phone, Mail, Search, Star, Users, X } from "lucide-react";
+import { apiUrl } from "./api.js";
 
 export const images = ["/images/hero-song-kol.png", "/images/skazka-canyon.png", "/images/karakol-valley.png"];
 export const money = (value) => `${new Intl.NumberFormat("ru-RU").format(value)} сом`;
@@ -101,7 +102,7 @@ export const fallbackGallery = [
 
 export function BookingModal({tour,onClose}) {
   const [form,setForm]=useState({full_name:"",email:"",phone:"",guests:2}); const [state,setState]=useState("idle"); if(!tour)return null; const dep=tour.departures?.[0];
-  const submit=async(e)=>{e.preventDefault();setState("sending");try{const r=await fetch("/api/bookings/",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({...form,guests:Number(form.guests),departure:dep.id})});if(!r.ok)throw new Error();setState("success");}catch{setState("error");}};
+  const submit=async(e)=>{e.preventDefault();setState("sending");try{const r=await fetch(apiUrl("/api/bookings/"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({...form,guests:Number(form.guests),departure:dep.id})});if(!r.ok)throw new Error();setState("success");}catch{setState("error");}};
   return <div className="modal-layer" onMouseDown={(e)=>e.target===e.currentTarget&&onClose()}><section className="booking-modal"><button className="modal-close" onClick={onClose}><X/></button>{state==="success"?<div className="success"><span><Check/></span><h2>Заявка отправлена</h2><p>Организатор проверит места и свяжется с вами.</p><button className="action-button" onClick={onClose}>Готово</button></div>:<><span className="kicker">Бронирование</span><h2>{tour.title}</h2><p className="modal-meta">{dateLabel(dep?.starts_at)} · {money(tour.price)} за человека</p><form onSubmit={submit}><label>Имя и фамилия<input required value={form.full_name} onChange={(e)=>setForm({...form,full_name:e.target.value})} placeholder="Как к вам обращаться"/></label><div className="form-row"><label>Телефон<input required value={form.phone} onChange={(e)=>setForm({...form,phone:e.target.value})} placeholder={CONTACTS.phone}/></label><label>Email<input required type="email" value={form.email} onChange={(e)=>setForm({...form,email:e.target.value})} placeholder="you@example.com"/></label></div><label>Количество гостей<select value={form.guests} onChange={(e)=>setForm({...form,guests:e.target.value})}><option value="1">1 человек</option><option value="2">2 человека</option><option value="3">3 человека</option><option value="4">4 человека</option></select></label><div className="booking-total"><span>Итого</span><strong>{money(tour.price*form.guests)}</strong></div>{state==="error"&&<p className="form-error">Не удалось отправить заявку. Проверьте backend.</p>}<button className="action-button submit">{state==="sending"?"Отправляем...":"Забронировать"}</button></form></>}</section></div>;
 }
 

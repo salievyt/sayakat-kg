@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { ArrowRight, ChevronDown } from "lucide-react";
+import { apiUrl } from "../api.js";
 import { ArcCarousel, BookingModal, OutlineButton, SearchBar, SectionLink, TourCard, defaultContent, fallbackTours, images } from "../components.jsx";
 
 export default function Home() {
@@ -9,8 +10,8 @@ export default function Home() {
   const [filter, setFilter] = useState("Все");
   const [note, setNote] = useState("Новые маршруты от местных организаторов");
   useEffect(() => {
-    fetch("/api/tours/?featured=true").then(r => r.ok ? r.json() : Promise.reject()).then(d => setTours(d.results || d)).catch(() => {});
-    fetch("/api/site-content/").then(r => r.ok ? r.json() : Promise.reject()).then(d => setContent({ ...defaultContent, ...d })).catch(() => {});
+    fetch(apiUrl("/api/tours/?featured=true")).then(r => r.ok ? r.json() : Promise.reject()).then(d => setTours(d.results || d)).catch(() => {});
+    fetch(apiUrl("/api/site-content/")).then(r => r.ok ? r.json() : Promise.reject()).then(d => setContent({ ...defaultContent, ...d })).catch(() => {});
   }, []);
   useEffect(() => { document.body.style.overflow = activeTour ? "hidden" : ""; return () => { document.body.style.overflow = ""; }; }, [activeTour]);
   const visible = useMemo(() => filter === "Все" ? tours : tours.filter(t => filter === "На выходные" ? t.duration_days <= 3 : filter === "Конные" ? /верх|конн/i.test(t.title) : true), [tours, filter]);

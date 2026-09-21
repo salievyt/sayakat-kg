@@ -1,0 +1,33 @@
+{
+  "installCommand": "npm --prefix frontend ci && pip install -r backend/requirements.txt",
+  "buildCommand": "npm --prefix frontend run build && python backend/manage.py collectstatic --noinput",
+  "outputDirectory": "frontend/dist",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "sayakat.backend.deo-core.codes"
+        }
+      ],
+      "destination": "/api/index.py"
+    },
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index.py"
+    },
+    {
+      "source": "/admin/(.*)",
+      "destination": "/api/index.py"
+    },
+    {
+      "source": "/static/(.*)",
+      "destination": "/api/index.py"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}

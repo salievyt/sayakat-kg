@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { CalendarCheck, Headset, ShieldCheck, Wallet } from "lucide-react";
+import { apiUrl } from "../api.js";
 import { InfoCard, PageHero, SectionLink, defaultContent, images } from "../components.jsx";
 
 const stats = [["6 лет", "водим гостей по стране"], ["120+", "маршрутов в каталоге"], ["38", "проверенных организаторов"], ["4.9", "средняя оценка поездок"]];
@@ -7,7 +8,7 @@ const steps = [["01", "Выбираете маршрут", "Смотрите д�
 
 export default function About() {
   const [content, setContent] = useState(defaultContent);
-  useEffect(() => { fetch("/api/site-content/").then(r => r.ok ? r.json() : Promise.reject()).then(d => setContent({ ...defaultContent, ...d })).catch(() => {}); }, []);
+  useEffect(() => { fetch(apiUrl("/api/site-content/")).then(r => r.ok ? r.json() : Promise.reject()).then(d => setContent({ ...defaultContent, ...d })).catch(() => {}); }, []);
   return <>
     <PageHero kicker="О сервисе" title="Sayakat — путешествия по-честному" text="Мы соединяем путешественников и местных организаторов, чтобы поездка по Кыргызстану начиналась с ясности, а не с переписок." image={images[2]}/>
     <section className="page-section"><div className="page-width intro-grid"><span className="section-index">{content.intro_label}</span><div><h2 className="page-title">{content.intro_title}</h2><p>{content.intro_text}</p></div></div></section>

@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, MapPin, Sparkles, Sun } from "lucide-react";
+import { apiUrl } from "../api.js";
 import { PageHero, SectionLink, fallbackDestinations, fallbackTours, images, money, pluralDays } from "../components.jsx";
 
 export default function Places() {
   const [places, setPlaces] = useState(fallbackDestinations);
   const [tours, setTours] = useState(fallbackTours);
   useEffect(() => {
-    fetch("/api/destinations/").then(r => r.ok ? r.json() : Promise.reject()).then(d => setPlaces(d.results || d)).catch(() => {});
-    fetch("/api/tours/").then(r => r.ok ? r.json() : Promise.reject()).then(d => setTours(d.results || d)).catch(() => {});
+    fetch(apiUrl("/api/destinations/")).then(r => r.ok ? r.json() : Promise.reject()).then(d => setPlaces(d.results || d)).catch(() => {});
+    fetch(apiUrl("/api/tours/")).then(r => r.ok ? r.json() : Promise.reject()).then(d => setTours(d.results || d)).catch(() => {});
   }, []);
   return <>
     <PageHero kicker="Направления" title="Места Кыргызстана" text="Озёра, каньоны, перевалы и жайлоо — выбирайте сторону страны, а мы покажем маршруты по ней." image={images[1]}/>

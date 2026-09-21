@@ -1,10 +1,20 @@
+import os
 from pathlib import Path
+
+import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = "dev-only-change-before-production"
-DEBUG = True
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "dev-only-change-before-production")
+DEBUG = os.environ.get("DJANGO_DEBUG", "False").lower() in {"1", "true", "yes", "on"}
+ALLOWED_HOSTS = [
+    host.strip()
+    for host in os.environ.get(
+        "DJANGO_ALLOWED_HOSTS",
+        "localhost,127.0.0.1,sayakat.backend.deo-core.codes,.vercel.app",
+    ).split(",")
+    if host.strip()
+]
 
 INSTALLED_APPS = [
     "jazzmin",
@@ -22,6 +32,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -43,7 +54,12 @@ TEMPLATES = [{
 }]
 WSGI_APPLICATION = "config.wsgi.application"
 
-DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": BASE_DIR / "db.sqlite3"}}
+DATABASES = {
+    "default": dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        conn_max_age=600,
+    )
+}
 AUTH_PASSWORD_VALIDATORS = []
 LANGUAGE_CODE = "ru-ru"
 TIME_ZONE = "Asia/Bishkek"
@@ -51,10 +67,32 @@ USE_I18N = True
 USE_TZ = True
 STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-CORS_ALLOWED_ORIGINS = ["http://localhost:5173", "http://127.0.0.1:5173"]
+CORS_ALLOWED_ORIGINS = [
+    origin.strip()
+    for origin in os.environ.get(
+        "DJANGO_CORS_ALLOWED_ORIGINS",
+        "http://localhost:5173,http://127.0.0.1:5173,https://sayakat.deo-core.codes",
+    ).split(",")
+    if origin.strip()
+]
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in os.environ.get(
+        "DJANGO_CSRF_TRUSTED_ORIGINS",
+        "https://sayakat.deo-core.codes,https://sayakat.backend.deo-core.codes",
+    ).split(",")
+    if origin.strip()
+]
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
@@ -72,7 +110,7 @@ JAZZMIN_SETTINGS = {
     "copyright": "Sayakat.kg",
     "search_model": ["marketplace.Tour", "marketplace.Booking"],
     "topmenu_links": [
-        {"name": "Сайт", "url": "http://localhost:5173", "new_window": True},
+        {"name": "Сайт", "url": os.environ.get("FRONTEND_URL", "http://localhost:5173"), "new_window": True},
         {"model": "marketplace.Booking"},
     ],
     "icons": {

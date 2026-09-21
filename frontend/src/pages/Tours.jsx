@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { ChevronDown } from "lucide-react";
+import { apiUrl } from "../api.js";
 import { BookingModal, PageHero, SectionLink, TourCard, defaultContent, fallbackTours, images } from "../components.jsx";
 
 export default function Tours() {
@@ -9,8 +10,8 @@ export default function Tours() {
   const [filter, setFilter] = useState("Все");
   const [search, setSearch] = useState("");
   useEffect(() => {
-    fetch("/api/tours/").then(r => r.ok ? r.json() : Promise.reject()).then(d => setTours(d.results || d)).catch(() => {});
-    fetch("/api/site-content/").then(r => r.ok ? r.json() : Promise.reject()).then(d => setContent({ ...defaultContent, ...d })).catch(() => {});
+    fetch(apiUrl("/api/tours/")).then(r => r.ok ? r.json() : Promise.reject()).then(d => setTours(d.results || d)).catch(() => {});
+    fetch(apiUrl("/api/site-content/")).then(r => r.ok ? r.json() : Promise.reject()).then(d => setContent({ ...defaultContent, ...d })).catch(() => {});
   }, []);
   useEffect(() => { document.body.style.overflow = activeTour ? "hidden" : ""; return () => { document.body.style.overflow = ""; }; }, [activeTour]);
   const visible = useMemo(() => tours.filter(t => {
