@@ -158,7 +158,7 @@ export function Footer() {
     </div>
   </div>
   <div className="page-width footer-bottom"><span>© 2026 Sayakat.kg</span><span className="footer-legal"><Link to="/privacy">Политика конфиденциальности</Link><Link to="/terms">Условия использования</Link></span><span>Русский · Кыргызча · English</span></div>
-  <div className="page-width footer-madeby"><img src="/images/made_by_deo.png" alt="Сделано студией DEO" loading="lazy"/></div></footer>;
+  <div className="page-width footer-madeby"><a href="https://crm.deo-core.codes/forms/61dae79e-1119-4990-8da5-81803404ae28/" target="_blank" rel="noopener noreferrer"><img src="/images/made_by_deo.png" alt="Сделано студией DEO" loading="lazy"/></a></div></footer>;
 }
 
 export function CookieBanner() {
