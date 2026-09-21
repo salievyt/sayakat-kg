@@ -69,8 +69,24 @@ DJANGO_CSRF_TRUSTED_ORIGINS=https://sayakat.deo-core.codes,https://sayakat.backe
 FRONTEND_URL=https://sayakat.deo-core.codes
 ```
 
-If the production backend must keep bookings and admin edits, add an external database and set:
+### Production database (Postgres) — обязательно для прода
+
+SQLite подходит только для локальной разработки. На Vercel файловая система функции **read-only и эфемерная**, поэтому без внешней БД админка и бронирования работают нестабильно (лезут в 500). Подключите бесплатный Postgres:
+
+**1. Создайте базу** — [Neon](https://neon.tech) (быстро, GitHub-вход) или [Supabase](https://supabase.com):
+- Neon: New Project → оставьте регион поближе к пользователям (например, Singapore) → скопируйте строку подключения `postgresql://...?...`;
+- Supabase: New Project → Database → Connection string → `postgresql://postgres.<ref>:<password>@aws-....pooler.supabase.com:6543/postgres?sslmode=require`.
+
+**2. Добавьте переменную в Vercel:** Dashboard проекта → Settings → Environment Variables → key `DATABASE_URL`, value — строка подключения. Примените к Production (и Preview при желании).
+
+**3. Передеплойте:** миграции применятся автоматически (на этапе сборки и при холодном старте функции) — отдельного шага не нужно.
+
+**4. Демо-данные и админ-аккаунт** (запускается локально, пишет в ту же Prod-базу):
 
 ```bash
-DATABASE_URL=<postgres-or-other-database-url>
+pip install -r backend/requirements.txt
+DATABASE_URL="<ваша-postgres-url>" python3 backend/manage.py seed_demo
+DATABASE_URL="<ваша-postgres-url>" python3 backend/manage.py createsuperuser
 ```
+
+После этого на https://sayakat.backend.deo-core.codes/admin/ админка работает постоянно, брони и правки не теряются.
