@@ -1,9 +1,3 @@
 {
-  "buildCommand": "python manage.py collectstatic --noinput",
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/api/index.py"
-    }
-  ]
+  "buildCommand": "python manage.py collectstatic --noinput"
 }

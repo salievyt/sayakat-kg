@@ -53,7 +53,7 @@ Use these Vercel settings:
 
 - Framework preset: Other
 - Install command: `npm --prefix frontend ci && pip install -r backend/requirements.txt`
-- Build command: `npm --prefix frontend run build && python backend/manage.py collectstatic --noinput`
+- Build command: `npm --prefix frontend run build && python backend/manage.py migrate --noinput && python backend/manage.py collectstatic --noinput`
 - Output directory: `frontend/dist`
 
 Add both domains in Vercel project settings. If DNS is managed outside Vercel, point each hostname to Vercel using the DNS records Vercel shows after adding the domains.
