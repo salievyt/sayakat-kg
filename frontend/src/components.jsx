@@ -157,5 +157,19 @@ export function Footer() {
       <span><MapPin size={15}/> {CONTACTS.address}</span>
     </div>
   </div>
-  <div className="page-width footer-bottom"><span>© 2026 Sayakat.kg</span><span>Русский · Кыргызча · English</span></div></footer>;
+  <div className="page-width footer-bottom"><span>© 2026 Sayakat.kg</span><span className="footer-legal"><Link to="/privacy">Политика конфиденциальности</Link><Link to="/terms">Условия использования</Link></span><span>Русский · Кыргызча · English</span></div>
+  <div className="page-width footer-madeby"><img src="/images/made_by_deo.png" alt="Сделано студией DEO" loading="lazy"/></div></footer>;
+}
+
+export function CookieBanner() {
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    if (!localStorage.getItem("sayakat-cookies")) setVisible(true);
+  }, []);
+  const accept = () => { localStorage.setItem("sayakat-cookies", "accepted"); setVisible(false); };
+  if (!visible) return null;
+  return <div className="cookie-banner">
+    <p>Мы используем файлы cookie, чтобы сайт работал корректно. Подробнее — в <Link to="/privacy">политике конфиденциальности</Link>.</p>
+    <button className="action-button" onClick={accept}>Хорошо</button>
+  </div>;
 }
