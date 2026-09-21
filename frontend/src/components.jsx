@@ -34,11 +34,18 @@ export const siteLink = { "/trips": "Путешествия", "/places": "Мес
 
 function Logo() { return <Link className="logo" to="/"><span>S</span><b>sayakat</b></Link>; }
 
-export function Header({ solid = false }) {
+export function Header() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const close = () => setOpen(false);
   useEffect(() => { document.body.style.overflow = open ? "hidden" : ""; return () => { document.body.style.overflow = ""; }; }, [open]);
-  return <header className={solid ? "site-header solid" : "site-header"}>
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  return <header className={`site-header${scrolled ? " scrolled" : ""}`}>
     <div className="page-width header-inner">
       <Logo/>
       <nav><Link to="/trips">Путешествия</Link><Link to="/places">Места</Link><Link to="/about">О сервисе</Link></nav>

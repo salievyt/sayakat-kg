@@ -16,9 +16,8 @@ function ScrollToTop() {
 }
 
 export default function App() {
-  const { pathname } = useLocation();
   return <div id="top">
-    <Header solid={pathname !== "/"}/>
+    <Header/>
     <main>
       <Routes>
         <Route path="/" element={<Home/>}/>
